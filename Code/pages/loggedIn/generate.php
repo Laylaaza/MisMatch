@@ -50,29 +50,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $occasion) {
         <?php if ($outfit === null && $_SERVER['REQUEST_METHOD'] === 'POST'): ?>
             <p style="color:red;">Niet genoeg kledingstukken om een outfit te genereren.</p>
         <?php elseif ($outfit): ?>
-            <div class="clothing-grid">
-                <?php if ($outfit['dress']): ?>
+            <div class="outfit-preview">
+                <div class="clothing-grid">
+                    <?php if ($outfit['dress']): ?>
+                        <div class="clothing-item">
+                            <img src="<?= htmlspecialchars($outfit['dress']['image_path']) ?>" class="clothing-img">
+                            <p><strong>Dress</strong></p>
+                            <button class="change-btn" data-category="dress" data-id="<?= $outfit['dress']['id'] ?>">Verander</button>
+                        </div>
+                    <?php else: ?>
+                        <div class="clothing-item">
+                            <img src="<?= htmlspecialchars($outfit['top']['image_path']) ?>" class="clothing-img">
+                            <p><strong>Top</strong></p>
+                            <button class="change-btn" data-category="top" data-id="<?= $outfit['top']['id'] ?>">Verander</button>
+                        </div>
+                        <div class="clothing-item">
+                            <img src="<?= htmlspecialchars($outfit['bottom']['image_path']) ?>" class="clothing-img">
+                            <p><strong>Bottom</strong></p>
+                            <button class="change-btn" data-category="bottom" data-id="<?= $outfit['bottom']['id'] ?>">Verander</button>
+                        </div>
+                    <?php endif; ?>
                     <div class="clothing-item">
-                        <img src="<?= htmlspecialchars($outfit['dress']['image_path']) ?>" class="clothing-img">
-                        <p><strong>Dress</strong></p>
+                        <img src="<?= htmlspecialchars($outfit['shoes']['image_path']) ?>" class="clothing-img">
+                        <p><strong>Shoes</strong></p>
+                        <button class="change-btn" data-category="shoes" data-id="<?= $outfit['shoes']['id'] ?>">Verander</button>
                     </div>
-                <?php else: ?>
-                    <div class="clothing-item">
-                        <img src="<?= htmlspecialchars($outfit['top']['image_path']) ?>" class="clothing-img">
-                        <p><strong>Top</strong></p>
-                    </div>
-                    <div class="clothing-item">
-                        <img src="<?= htmlspecialchars($outfit['bottom']['image_path']) ?>" class="clothing-img">
-                        <p><strong>Bottom</strong></p>
-                    </div>
-                <?php endif; ?>
-                <div class="clothing-item">
-                    <img src="<?= htmlspecialchars($outfit['shoes']['image_path']) ?>" class="clothing-img">
-                    <p><strong>Shoes</strong></p>
+                </div>
+
+                <div class="save-container">
+                    <form method="POST" action="../../inc/save_outfit.php">
+                        <input type="hidden" name="outfit_data" value='<?= json_encode($outfit) ?>'>
+                        <button type="submit" class="save-btn">Outfit opslaan</button>
+                    </form>
                 </div>
             </div>
         <?php endif; ?>
     </main>
 </div>
+
+<div class="popup-overlay" id="popupOverlay" style="display: none;">
+    <div class="popup-content">
+        <span class="popup-close" onclick="closePopup()">&times;</span>
+        <div class="popup-grid" id="popupGrid"></div>
+    </div>
+</div>
+
+<script src="../../inc/functions.js"></script>
 </body>
 </html>

@@ -91,7 +91,7 @@ $clothingItems = $result->fetch_all(MYSQLI_ASSOC);
                         <p><strong>Kleur:</strong> <?= htmlspecialchars($item['colour']) ?></p>
                         <p><strong>Materiaal:</strong> <?= htmlspecialchars($item['material']) ?></p>
                         <p><strong>Gelegenheid:</strong> <?= htmlspecialchars($item['occasion']) ?></p>
-                        <form method="POST" onsubmit="return confirm('Weet je zeker dat je dit kledingstuk wilt verwijderen?');">
+                        <form method="POST">
                             <input type="hidden" name="item_id" value="<?= $item['id'] ?>">
                             <button type="submit" class="btn delete">Verwijder</button>
                         </form>

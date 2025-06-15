@@ -83,7 +83,6 @@ function renderSidebar() {
             <a href="closet.php"><i class="fas fa-tshirt"></i> Bekijk kledingkast</a>
             <a href="generate.php"><i class="fas fa-magic"></i> Genereer een outfit</a>
             <a href="savedOutfit.php"><i class="fas fa-bookmark"></i> Opgeslagen outfits</a>
-            <a href="settings.php"><i class="fas fa-cog"></i> Instellingen</a>
             <a href="../logout.php"><i class="fas fa-sign-out-alt"></i> Uitloggen</a>
         </nav>
     </aside>';
@@ -130,7 +129,21 @@ function deleteClothingItem($conn, $userId, $itemId) {
     return $stmt->execute();
 }
 
+function getItemsByCategoryAndOccasion($conn, $userId, $category, $occasion) {
+    $stmt = $conn->prepare("SELECT * FROM clothing_items WHERE user_id = ? AND category = ? AND occasion = ?");
+    $stmt->bind_param("iss", $userId, $category, $occasion);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result->fetch_all(MYSQLI_ASSOC);
+}
 
+function getItemsByCategory($conn, $userId, $category) {
+    $stmt = $conn->prepare("SELECT id, image_path FROM clothing_items WHERE user_id = ? AND category = ?");
+    $stmt->bind_param("is", $userId, $category);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result->fetch_all(MYSQLI_ASSOC);
+}
 
 
 
